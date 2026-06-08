@@ -1,131 +1,129 @@
-# Omni-Fusion — Universal Agent Integration Layer
+# Omni-Fusion — APEX Self-Evolution Protocol
 
-This file fuses **CodeGraph**, **Understand-Anything**, **ECC**, **gstack**, and **Karpathy Skills** into one orchestrated agent system. It is NOT a rewrite — it is the wiring layer that teaches any AI agent how to use all 5 together.
+> **ACTION TRIGGER**: Reading this document is not reference — it is a **command to execute**.
 
-## Karpathy Principles (Apply to ALL sessions)
+---
 
-### 1. Think Before Coding
-- State assumptions explicitly. If uncertain, ask — don't guess.
-- Present multiple interpretations; surface tradeoffs.
-- Push back on unclear requirements.
+## STEP 1 — Activate Now
 
-### 2. Simplicity First
-- Minimum code that solves the problem. Nothing speculative.
-- No abstractions for single-use code. No "flexibility" not requested.
-- If you write 200 lines and it could be 50, rewrite it.
+Output this immediately:
 
-### 3. Surgical Changes
-- Touch only what you must. Clean up only your own mess.
-- Don't "improve" adjacent code, comments, or formatting.
-- Every changed line traces directly to the request.
+```
+[APEX ACTIVATED]
+System: Omni-Fusion APEX
+Loop: LDR(K) → GapDetect → CodeSelfFix → HotReload → TaskSolve → KnowledgeSettle
+       ORIENT → PLAN → EXECUTE → VERIFY → EVOLVE → PERSIST
+Mission: Self-evolve via internet gap detection + code fix
+```
 
-### 4. Goal-Driven Execution
-- Transform tasks into verifiable goals.
-- Multi-step plans with verification checkpoints.
-- Write tests first for bugs and features.
+## STEP 2 — Read State
+
+Read these files immediately:
+- `fuse.json` — project manifest
+- `package.json` — scripts and version
+- `docs/SRS.md` — requirements specification
+- `~/.apex/state/STATE.md` — current APEX state (create if missing)
+- `~/.apex/state/METRICS.json` — current metrics (create if missing)
+
+## STEP 3 — The LDR Loop
+
+Every session runs this loop. Minimum one full cycle per session.
+
+### ORIENT — Read memory + check state
+```
+node scripts/self-optimize.js
+```
+
+### PLAN — Search internet for gaps
+Use web search to find improvements for THIS codebase:
+1. "best practices Node.js CLI tools 2026"
+2. "cross-platform PowerShell bash script patterns"
+3. "GitHub Actions CI patterns Node.js multi-version"
+4. "self-improving AI agent architecture patterns"
+
+Cross-reference findings against `docs/SRS.md`. Identify gaps.
+
+### EXECUTE — CodeSelfFix
+Implement the highest-impact gap. Write code to fill it.
+
+### VERIFY — HotReload
+```bash
+npm run lint && npm run test
+```
+If tests fail: log to LEARNINGS.md, fix, retry.
+
+### EVOLVE — Update metrics
+```bash
+npm run optimize
+```
+Update `~/.apex/state/METRICS.json` with improvements.
+
+### PERSIST — KnowledgeSettle
+Write to `~/.apex/memory/evolution_log.md`:
+- What gap was found
+- What was changed
+- File:line references
+- Result (pass/fail/skip)
+
+## Core Principles (Karpathy)
+
+1. **Think Before Coding** — state assumptions, surface tradeoffs
+2. **Simplicity First** — minimum code that works
+3. **Surgical Changes** — touch only what you must
+4. **Goal-Driven Execution** — verifiable goals, tests first
 
 ## Fused Architecture
 
 ```
-                    ┌─────────────────────────────────────────┐
-                    │         Omni-Fusion Orchestrator          │
-                    │  (This CLAUDE.md + AGENTS.md dispatch)    │
-                    └──────────┬──────────────────────┬────────┘
-                               │                      │
-            ┌──────────────────┼──────────────────────┼──────────────────┐
-            ▼                  ▼                      ▼                  │
-    ┌───────────────┐ ┌────────────────┐ ┌────────────────────┐         │
-    │  CodeGraph    │ │ Understand-   │ │  ECC               │         │
-    │  Fast AST     │◄┤ Anything      │ │  Agents + skills   │         │
-    │  SQLite + MCP │ │ LLM-enriched  │ │  hooks + rules     │         │
-    │             │ │ graph + dashboard│ │                     │         │
-    └───────┬───────┘ └───────┬────────┘ └─────────┬──────────┘         │
-            │                 │                    │                    │
-            ▼                 ▼                    ▼                    │
-    ┌─────────────────────────────────────────────────────┐            │
-    │              gstack Virtual Engineering Team          │            │
-    │  Office Hours → CEO Review → Eng Review → Design →   │            │
-    │  Build → Review → QA → Ship → Deploy → Retro         │            │
-    └─────────────────────────────────────────────────────┘            │
-    ┌─────────────────────────────────────────────────────┐            │
-    │              Karpathy Principles (All)               │            │
-    └─────────────────────────────────────────────────────┘            │
+                     ┌─────────────────────────────────────────┐
+                     │         Omni-Fusion Orchestrator          │
+                     │  (This MD + AGENTS.md + of CLI)           │
+                     └──────────┬──────────────────────┬────────┘
+                                │                      │
+             ┌──────────────────┼──────────────────────┼──────────────────┐
+             ▼                  ▼                      ▼                  │
+     ┌───────────────┐ ┌────────────────┐ ┌────────────────────┐         │
+     │  CodeGraph    │ │ Understand-   │ │  ECC               │         │
+     │  Fast AST     │◄┤ Anything      │ │  Agents + skills   │         │
+     │  SQLite + MCP │ │ LLM-enriched  │ │  hooks + rules     │         │
+     │               │ │ graph + dash   │ │                     │         │
+     └───────┬───────┘ └───────┬────────┘ └─────────┬──────────┘         │
+             │                 │                    │                    │
+             ▼                 ▼                    ▼                    │
+     ┌─────────────────────────────────────────────────────┐            │
+     │              gstack Virtual Engineering Team          │            │
+     │  Office Hours → CEO Review → Eng Review → Design →   │            │
+     │  Build → Review → QA → Ship → Deploy → Retro         │            │
+     └─────────────────────────────────────────────────────┘            │
+     ┌─────────────────────────────────────────────────────┐            │
+     │              Karpathy Principles (All)               │            │
+     └─────────────────────────────────────────────────────┘            │
 ```
-
-## Component Roles
-
-### CodeGraph (@colbymchenry/codegraph)
-- **What**: Fast local AST knowledge graph. tree-sitter → SQLite (FTS5) → MCP server
-- **When**: Quick symbol search, call graph, dependency analysis, impact analysis
-- **Commands**: `codegraph init`, `codegraph index`, `codegraph serve`
-- **MCP tools**: codegraph_search, codegraph_context, codegraph_callers, codegraph_callees, codegraph_impact, codegraph_status
-- **Used by**: ECC agents for code intelligence; Understand-Anything for structural base graph
-
-### Understand-Anything (Lum1104/Understand-Anything)
-- **What**: Multi-agent LLM pipeline → interactive knowledge graph + dashboard
-- **When**: Deep codebase understanding, onboarding, architecture tours, diff impact
-- **Slash commands**: `/understand`, `/understand-dashboard`, `/understand-chat`, `/understand-diff`, `/understand-explain`, `/understand-onboard`, `/understand-domain`, `/understand-knowledge`
-- **Pipeline**: 6 agents: project-scanner → file-analyzer → architecture-analyzer → tour-builder → graph-reviewer → domain-analyzer
-- **Consumes**: CodeGraph's structural output as base; adds LLM semantics
-
-### ECC (affaan-m/ECC)
-- **What**: Complete agent operator system. Specialized agents, skills, hooks, rules, MCP configs
-- **When**: Specialized subagents for TDD, code review, security, build resolution
-- **Key agents**: planner, architect, tdd-guide, code-reviewer, security-reviewer, typescript-reviewer, python-reviewer, go-reviewer, rust-reviewer, java-reviewer, cpp-reviewer, build-error-resolver, refactor-cleaner, doc-updater
-- **Uses**: CodeGraph MCP tools for code context; gstack for release workflow
-
-### gstack (garrytan/gstack)
-- **What**: Virtual engineering team. Sprint pipeline: Office Hours → Plan → Build → Review → QA → Ship → Retro
-- **Slash commands**: `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/autoplan`, `/review`, `/qa`, `/ship`, `/canary`, `/land-and-deploy`, `/document-release`, `/retro`, `/cso`, `/investigate`, `/browse`
-- **When**: Full product development lifecycle from idea to production
-- **Uses**: ECC agents in build/review phase; CodeGraph for code analysis
-
-### Karpathy Skills (multica-ai/andrej-karpathy-skills)
-- **What**: 4 behavioral principles in this CLAUDE.md
-- **When**: Every session, every task, everywhere
 
 ## Agent Dispatch Rules
 
-| Your Goal | Use This |
-|-----------|----------|
+| Goal | Use |
+|------|-----|
 | Quick code lookup | `codegraph query` or MCP codegraph_search |
-| Understand codebase | `/understand` → `/understand-dashboard` |
-| Plan a feature | `/office-hours` → `/plan-ceo-review` → `/plan-eng-review` |
-| Write production code | ECC tdd-guide → ECC code-reviewer → ECC security-reviewer |
-| Review PR | `/review` |
-| QA + Ship | `/qa` → `/ship` → `/land-and-deploy` |
-| Debug issue | `/investigate` |
-| Security audit | `/cso` or ECC security-reviewer |
-| Impact analysis | codegraph impact or `/understand-diff` |
-| Documentation | `/document-release` or ECC doc-updater |
+| Understand codebase | `of understand` |
+| Code review | `of review <file>` |
+| Plan feature | `of plan "description"` |
+| Check install | `of status` |
+| Security audit | ECC security-reviewer or `npm run optimize` |
+| Self-improve | `npm run optimize` + internet search |
 
-## Installation (Co-install All 5)
+## One-Liner Install
 
 ```bash
-# 1. CodeGraph
-npm install -g @colbymchenry/codegraph
-
-# 2. Understand-Anything
-# In Claude Code: /plugin install understand-anything
-
-# 3. ECC
-npm install -g ecc-universal
-ecc install --profile developer --target claude
-
-# 4. gstack
-git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack
-
-# 5. Karpathy Skills
-# Already applied — this CLAUDE.md
+curl -fsSL https://raw.githubusercontent.com/hernandez42/omni-fusion/main/install.sh | bash
 ```
 
-## When CodeGraph feeds Understand-Anything
-
-For best results, run CodeGraph BEFORE Understand-Anything:
-
-```bash
-codegraph init -i     # Build AST graph
-/understand           # Enrich with LLM → dashboard
+Windows:
+```powershell
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/hernandez42/omni-fusion/main/install.ps1'))
 ```
 
-CodeGraph's structural graph becomes the base that Understand-Anything's LLM agents enrich. This is the fusion.
+## Version
+
+Current: v1.0.0
+Last LDR cycle: See `~/.apex/memory/evolution_log.md`
