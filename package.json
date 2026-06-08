@@ -1,0 +1,35 @@
+{
+  "name": "omni-fusion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Universal AI Agent Integration Layer — Co-installs CodeGraph + Understand-Anything + ECC + gstack + Karpathy Skills into one orchestrated system",
+  "bin": {
+    "of": "bin/of.js"
+  },
+  "scripts": {
+    "setup": "node scripts/co-install.js --all",
+    "status": "node scripts/check-install.js",
+    "build-docs": "node scripts/build-docs.js",
+    "of": "node bin/of.js",
+    "review": "node bin/of.js review",
+    "understand": "node bin/of.js understand",
+    "plan": "node bin/of.js plan",
+    "lint": "node --check bin/of.js && node --check lib/codegraph.js && node --check lib/ecc.js && node --check lib/gstack.js && node --check scripts/co-install.js && node --check scripts/check-install.js && node --check scripts/build-docs.js",
+    "test": "node scripts/check-install.js && npm run build-docs",
+    "ci": "npm run lint && npm run test"
+  },
+  "keywords": [
+    "omni-fusion",
+    "codegraph",
+    "understand-anything",
+    "ecc",
+    "gstack",
+    "karpathy",
+    "mcp",
+    "agent-orchestration"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

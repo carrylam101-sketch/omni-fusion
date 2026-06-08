@@ -1,0 +1,13 @@
+# Generated artifacts
+.of-reviews/
+.of-plans/
+
+# CodeGraph index
+.codegraph/
+
+# Node.js
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,67 @@
+{
+  "name": "omni-fusion",
+  "description": "MCP bridge exposing CodeGraph tools to MCP-capable AI agents. Other projects (Understand-Anything, ECC, gstack, Karpathy) integrate via CLAUDE.md slash commands and skill files, not MCP.",
+  "version": "1.0.0",
+  "mcpServers": {
+    "codegraph": {
+      "command": "codegraph",
+      "args": ["serve", "--mcp"],
+      "description": "Fast AST knowledge graph: search, context, callers, callees, impact analysis",
+      "env": {}
+    }
+  },
+  "slashCommands": {
+    "understand-anything": {
+      "prefix": "/",
+      "commands": [
+        "understand", "understand-dashboard", "understand-chat",
+        "understand-diff", "understand-explain", "understand-onboard",
+        "understand-domain", "understand-knowledge"
+      ],
+      "description": "Multi-agent LLM code understanding pipeline (requires Claude Code plugin)"
+    },
+    "gstack": {
+      "prefix": "/",
+      "commands": [
+        "office-hours", "plan-ceo-review", "plan-eng-review",
+        "plan-design-review", "autoplan", "review", "qa", "ship",
+        "land-and-deploy", "canary", "document-release", "retro",
+        "cso", "investigate", "browse"
+      ],
+      "description": "Virtual engineering team workflow (requires gstack skill files)"
+    }
+  },
+  "skillDirectories": {
+    "ecc": {
+      "path": "~/.claude/agents/",
+      "description": "ECC agent definitions (48 agents for TDD, code review, security, build resolution). Note: `~` expands to user home directory per shell convention, not standard JSON."
+    },
+    "gstack": {
+      "path": "~/.claude/skills/gstack/",
+      "description": "gstack skills for virtual engineering team. Note: `~` expands to user home directory per shell convention, not standard JSON."
+    }
+  },
+  "claudeMd": {
+    "karpathy": {
+      "path": "CLAUDE.md",
+      "description": "4 behavioral principles: Think, Simple, Surgical, Goal-Driven"
+    }
+  },
+  "fusion": {
+    "codeGraphFirst": true,
+    "understandOnCodeGraph": true,
+    "eccUsesCodeGraph": true,
+    "gstackDispatchesECC": true,
+    "karpathyAppliesEverywhere": true
+  },
+  "pipeline": {
+    "code-exploration": {
+      "order": ["codegraph", "understand-anything"],
+      "description": "Run codegraph init -i first, then /understand for LLM enrichment"
+    },
+    "feature-sprint": {
+      "order": ["gstack", "ecc", "gstack"],
+      "description": "gstack plans, ECC builds/reviews, gstack ships/retros"
+    }
+  }
+}

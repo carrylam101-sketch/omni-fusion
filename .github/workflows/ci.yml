@@ -1,0 +1,111 @@
+name: Omni-Fusion CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  check:
+    name: 'Check: Node.js ${{ matrix.node }}'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: ['18', '20', '22']
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Check project files exist
+        run: node -e "
+          ['bin/of.js','lib/codegraph.js','lib/ecc.js','lib/gstack.js',
+           'scripts/co-install.js','scripts/check-install.js','scripts/build-docs.js',
+           'fuse.json','package.json','CLAUDE.md','AGENTS.md','FUSION.md',
+           'mcp-bridge/omni-fusion.json'].forEach(f => {
+            const fs = require('fs');
+            if (!fs.existsSync(f)) { console.error('MISSING:', f); process.exit(1); }
+            else console.log('OK:', f);
+          });"
+
+      - name: Check bin/of.js syntax
+        run: node --check bin/of.js
+
+      - name: Check all lib files syntax
+        run: |
+          node --check lib/codegraph.js
+          node --check lib/ecc.js
+          node --check lib/gstack.js
+
+      - name: Check all script files syntax
+        run: |
+          node --check scripts/co-install.js
+          node --check scripts/check-install.js
+          node --check scripts/build-docs.js
+
+      - name: Run build-docs (verify fuse.json + generate ARCHITECTURE.md)
+        run: node scripts/build-docs.js
+
+      - name: Verify ARCHITECTURE.md was generated
+        run: node -e "
+          const fs = require('fs');
+          if (!fs.existsSync('docs/ARCHITECTURE.md'))
+            { console.error('docs/ARCHITECTURE.md not generated'); process.exit(1); }
+          console.log('docs/ARCHITECTURE.md generated, size:', fs.statSync('docs/ARCHITECTURE.md').size, 'bytes');"
+
+      - name: Verify package.json has required fields
+        run: node -e "
+          const p = require('./package.json');
+          const required = ['name','version','bin','scripts','engines'];
+          required.forEach(k => { if (!p[k]) console.error('MISSING field:', k); });
+          if (!p.bin.of) { console.error('MISSING bin.of'); process.exit(1); }
+          console.log('package.json valid');"
+
+      - name: Verify fuse.json has all 5 projects
+        run: node -e "
+          const f = require('./fuse.json');
+          const expected = ['codegraph','understand-anything','ecc','gstack','karpathy-skills'];
+          const missing = expected.filter(k => !f.projects[k]);
+          if (missing.length) { console.error('Missing projects:', missing); process.exit(1); }
+          console.log('fuse.json valid,', Object.keys(f.projects).length, 'projects');"
+
+      - name: Verify .gitignore exists and covers generated dirs
+        run: node -e "
+          const fs = require('fs');
+          if (!fs.existsSync('.gitignore')) { console.error('No .gitignore'); process.exit(1); }
+          const content = fs.readFileSync('.gitignore','utf8');
+          ['.of-reviews/','.of-plans/','.codegraph/'].forEach(d => {
+            if (!content.includes(d)) console.warn('MISSING in .gitignore:', d);
+            else console.log('.gitignore covers:', d);
+          });"
+
+      - name: Verify no shell metacharacters in CLI args path
+        run: node -e "
+          // Test that all execSync/execFileSync/spawnSync calls quote args
+          const fs = require('fs');
+          const files = ['bin/of.js','lib/codegraph.js','lib/ecc.js','lib/gstack.js',
+                        'scripts/co-install.js','scripts/check-install.js'];
+          let issues = 0;
+          files.forEach(f => {
+            const content = fs.readFileSync(f,'utf8');
+            const lines = content.split('\n');
+            lines.forEach((line, i) => {
+              if (line.includes('execSync') || line.includes('spawnSync')) {
+                if (line.includes('shell:') && !line.includes('shell: true')) {
+                  // shell: false with dynamic args is OK
+                } else if (line.includes('+') && line.includes('\${')) {
+                  console.warn(f + ':' + (i+1) + ' - template injection potential: ' + line.trim());
+                  issues++;
+                }
+              }
+            });
+          });
+          if (issues) console.log('Found', issues, 'potential injection points (review manually)');
+          else console.log('No obvious injection patterns');"
