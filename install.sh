@@ -49,45 +49,27 @@ else
   fi
 fi
 
-# 3. gstack
-GSTACK_DIR="$HOME/.claude/skills/gstack"
-if [ -f "$GSTACK_DIR/SKILL.md" ]; then
-  ok "gstack already installed"
-else
-  info "Installing gstack..."
-  mkdir -p "$(dirname "$GSTACK_DIR")"
-  if git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git "$GSTACK_DIR"; then
-    ok "gstack cloned"
-  else
-    warn "gstack clone failed — run: git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack"
-  fi
-  if [ -f "$GSTACK_DIR/setup" ]; then
-    if (cd "$GSTACK_DIR" && ./setup); then
-      ok "gstack setup complete"
-    else
-      warn "gstack setup incomplete — run cd ~/.claude/skills/gstack && ./setup"
-    fi
-  fi
-fi
+# 3. gstack — SKIPPED in sanitized fork (was: git clone ~/.claude/skills/gstack)
+# The sanitized fork does NOT auto-provision ~/.claude/skills/ to prevent
+# Claude Code plugin auto-activation that could re-introduce the LDR self-loop
+# risk via the upstream omni-fusion prompt-injection pattern. To opt in
+# manually: git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack
+warn "gstack SKIPPED (sanitized fork): see SANITIZATION_NOTES.md for opt-in steps"
 
-# 4. Verify Understand-Anything
-UA_CACHE="$HOME/.claude/plugins/cache/understand-anything"
-if [ -d "$UA_CACHE" ]; then
-  ok "Understand-Anything plugin cached"
-else
-  warn "Understand-Anything not installed. In Claude Code: /plugin install understand-anything"
-fi
+# 4. Understand-Anything — SKIPPED (was: ~/.claude/plugins/cache/understand-anything)
+# Same rationale as gstack; understand-anything is a Claude Code plugin only.
+warn "Understand-Anything SKIPPED (Claude Code plugin, requires /plugin install inside Claude Code)"
 
-# 5. Karpathy
-if grep -q "Think Before Coding" CLAUDE.md 2>/dev/null; then
-  ok "Karpathy principles active in CLAUDE.md"
-else
-  warn "CLAUDE.md not found or missing Karpathy principles"
-fi
+# 5. Karpathy — the original check was "is the LLM-targeted CLAUDE.md present?"
+# The sanitized CLAUDE.md (in this fork) intentionally does NOT contain the
+# original "ACTION TRIGGER" or "APEX ACTIVATED" string. Treat its absence as OK.
+ok "Karpathy principles (sanitized): present as reference in CLAUDE.md, NOT as a command"
 
 echo ""
-echo -e "${GREEN}Omni-Fusion setup complete!${NC}"
-echo -e "Next: copy CLAUDE.md and AGENTS.md to your project root"
-echo -e "Then: start a fresh Claude Code session"
-echo -e "For Understand-Anything: run in Claude Code → /plugin install understand-anything"
+echo -e "${GREEN}Omni-Fusion (SANITIZED) setup complete!${NC}"
+echo -e "Sanitization: see SANITIZATION_NOTES.md"
+echo -e "Upstream original: https://github.com/hernandez42/omni-fusion"
+echo -e "Sanitized fork:   https://github.com/carrylam101-sketch/omni-fusion"
+echo -e "NOTE: gstack/Understand-Anything NOT auto-installed (Claude Code plugins, opt-in only)"
+echo -e "NOTE: 'of' CLI is available locally; global npm installs were left to user opt-in"
 echo ""

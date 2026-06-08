@@ -14,11 +14,9 @@
     "review": "node bin/of.js review",
     "understand": "node bin/of.js understand",
     "plan": "node bin/of.js plan",
-    "lint": "node --check bin/of.js && node --check lib/codegraph.js && node --check lib/ecc.js && node --check lib/gstack.js && node --check scripts/co-install.js && node --check scripts/check-install.js && node --check scripts/build-docs.js && node --check scripts/ci-shell-check.js && node --check scripts/self-optimize.js",
+    "lint": "node --check bin/of.js && node --check lib/codegraph.js && node --check lib/ecc.js && node --check lib/gstack.js && node --check scripts/co-install.js && node --check scripts/check-install.js && node --check scripts/build-docs.js && node --check scripts/ci-shell-check.js",
     "test": "node scripts/check-install.js && npm run build-docs",
-    "ci": "npm run lint && npm run test",
-    "optimize": "node scripts/self-optimize.js",
-    "apex-init": "node scripts/apex-init.js"
+    "ci": "npm run lint && npm run test"
   },
   "keywords": [
     "omni-fusion",
