@@ -25,7 +25,8 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Check project files exist
-        run: node -e "
+        run: |
+          node -e "
           ['bin/of.js','lib/codegraph.js','lib/ecc.js','lib/gstack.js',
            'scripts/co-install.js','scripts/check-install.js','scripts/build-docs.js',
            'fuse.json','package.json','CLAUDE.md','AGENTS.md','FUSION.md',
@@ -54,14 +55,17 @@ jobs:
         run: node scripts/build-docs.js
 
       - name: Verify ARCHITECTURE.md was generated
-        run: node -e "
+        run: |
+          node -e "
           const fs = require('fs');
           if (!fs.existsSync('docs/ARCHITECTURE.md'))
             { console.error('docs/ARCHITECTURE.md not generated'); process.exit(1); }
-          console.log('docs/ARCHITECTURE.md generated, size:', fs.statSync('docs/ARCHITECTURE.md').size, 'bytes');"
+          console.log('docs/ARCHITECTURE.md generated, size:',
+            fs.statSync('docs/ARCHITECTURE.md').size, 'bytes');"
 
       - name: Verify package.json has required fields
-        run: node -e "
+        run: |
+          node -e "
           const p = require('./package.json');
           const required = ['name','version','bin','scripts','engines'];
           required.forEach(k => { if (!p[k]) console.error('MISSING field:', k); });
@@ -69,7 +73,8 @@ jobs:
           console.log('package.json valid');"
 
       - name: Verify fuse.json has all 5 projects
-        run: node -e "
+        run: |
+          node -e "
           const f = require('./fuse.json');
           const expected = ['codegraph','understand-anything','ecc','gstack','karpathy-skills'];
           const missing = expected.filter(k => !f.projects[k]);
@@ -77,7 +82,8 @@ jobs:
           console.log('fuse.json valid,', Object.keys(f.projects).length, 'projects');"
 
       - name: Verify .gitignore exists and covers generated dirs
-        run: node -e "
+        run: |
+          node -e "
           const fs = require('fs');
           if (!fs.existsSync('.gitignore')) { console.error('No .gitignore'); process.exit(1); }
           const content = fs.readFileSync('.gitignore','utf8');
@@ -86,9 +92,9 @@ jobs:
             else console.log('.gitignore covers:', d);
           });"
 
-      - name: Verify no shell metacharacters in CLI args path
-        run: node -e "
-          // Test that all execSync/execFileSync/spawnSync calls quote args
+      - name: Check for shell injection patterns
+        run: |
+          node -e "
           const fs = require('fs');
           const files = ['bin/of.js','lib/codegraph.js','lib/ecc.js','lib/gstack.js',
                         'scripts/co-install.js','scripts/check-install.js'];
@@ -98,10 +104,10 @@ jobs:
             const lines = content.split('\n');
             lines.forEach((line, i) => {
               if (line.includes('execSync') || line.includes('spawnSync')) {
-                if (line.includes('shell:') && !line.includes('shell: true')) {
-                  // shell: false with dynamic args is OK
-                } else if (line.includes('+') && line.includes('\${')) {
-                  console.warn(f + ':' + (i+1) + ' - template injection potential: ' + line.trim());
+                const hasShellTrue = line.includes('shell: true') || line.includes('shell:true');
+                const hasInterpolation = line.includes('+') && line.includes('\${');
+                if (!hasShellTrue && hasInterpolation) {
+                  console.warn(f + ':' + (i+1) + ' - potential injection: ' + line.trim());
                   issues++;
                 }
               }
