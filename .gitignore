@@ -1,6 +1,7 @@
 # Generated artifacts
 .of-reviews/
 .of-plans/
+.of-optimize/
 
 # CodeGraph index
 .codegraph/
